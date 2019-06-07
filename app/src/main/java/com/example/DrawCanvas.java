@@ -1,4 +1,4 @@
-package com.transovative;
+package com.example;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,9 +10,10 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 
-public class DrawCircleCanvas extends View {
+public class DrawCanvas extends View {
     public Bitmap mBitmap;
     public Canvas mCanvas;
     private Path mPath;
@@ -23,9 +24,8 @@ public class DrawCircleCanvas extends View {
     private int BitmapSize = 30;
     private int width, height;
     private Context context;
-    private float downx = 0, downy = 0, upx = 0, upy = 0;
 
-    public DrawCircleCanvas(Context context, AttributeSet attrs) {
+    public DrawCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         mPath = new Path();
@@ -35,8 +35,8 @@ public class DrawCircleCanvas extends View {
         mPaint.setDither(true);
         mPaint.setColor(0xFF000000);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        //mPaint.setStrokeJoin(Paint.Join.ROUND);
+        //mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(5);
     }
 
@@ -47,7 +47,7 @@ public class DrawCircleCanvas extends View {
         mCanvas = new Canvas(mBitmap);
     }
 
-    public void setDrawableCanvas(Bitmap bitmap){
+    public void setDrawableCanvas(Bitmap bitmap) {
         width = bitmap.getWidth() + BitmapSize * 2;
         height = bitmap.getHeight() + BitmapSize * 2;
 
@@ -105,24 +105,20 @@ public class DrawCircleCanvas extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
-        switch (action) {
+        float x = event.getX();
+        float y = event.getY();
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                downx = event.getX();
-                downy = event.getY();
-                mCanvas.drawCircle(downx, downy, 100, mPaint);
+                touch_start(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                upx = event.getX();
-                upy = event.getY();
+                touch_move(x, y);
                 invalidate();
                 break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
-            default:
+            case MotionEvent.ACTION_UP:
+                touch_up();
+                invalidate();
                 break;
         }
         return true;
@@ -137,11 +133,9 @@ public class DrawCircleCanvas extends View {
     }
 
     public void clear() {
-        //mBitmap.eraseColor(Color.GREEN);
         mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         invalidate();
         System.gc();
-        //mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
     }
 }
 

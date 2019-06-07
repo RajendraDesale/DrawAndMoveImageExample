@@ -1,4 +1,4 @@
-package com.transovative;
+package com.example;
 
 import android.app.Activity;
 import android.app.Dialog;

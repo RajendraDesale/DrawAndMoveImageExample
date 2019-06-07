@@ -1,4 +1,4 @@
-package com.transovative;
+package com.example;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class DrawLineCanvas extends View {
+public class DrawRectangleCanvas extends View {
     public Bitmap mBitmap;
     public Canvas mCanvas;
     private Path mPath;
@@ -25,7 +25,7 @@ public class DrawLineCanvas extends View {
     private Context context;
     private float downx = 0, downy = 0, upx = 0, upy = 0;
 
-    public DrawLineCanvas(Context context, AttributeSet attrs) {
+    public DrawRectangleCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         mPath = new Path();
@@ -117,8 +117,8 @@ public class DrawLineCanvas extends View {
             case MotionEvent.ACTION_UP:
                 upx = event.getX();
                 upy = event.getY();
-                mCanvas.drawLine(downx, downy, upx, upy, mPaint);
-                //mCanvas.drawRect(downx, downy, upx, upy, mPaint);
+                //mCanvas.drawLine(downx, downy, upx, upy, mPaint);
+                mCanvas.drawRect(downx, downy, upx, upy, mPaint);
                 invalidate();
                 break;
             case MotionEvent.ACTION_CANCEL:

@@ -1,4 +1,4 @@
-package com.transovative;
+package com.example;
 
 import org.junit.Test;
 
